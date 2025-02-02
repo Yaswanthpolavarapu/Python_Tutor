@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Kids Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐍 Python Kids Tutor</h1>
+            <div class="description">
+                <p>Welcome to Python Kids Tutor! This interactive learning platform helps children discover the magic of coding through friendly conversations with an AI tutor. Our tutor explains Python concepts using fun examples and simple language that kids can understand.</p>
+                <p>Features include a customizable learning experience, interactive chat interface, and the ability to save and review previous lessons. Start your coding adventure today!</p>
+            </div>
+        </header>
+
+        <div class="api-key-section">
+            <input type="password" id="apiKey" placeholder="Enter your OpenAI API key">
+            <button onclick="updateApiKey()">Update API Key</button>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Ask me anything about Python!">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+        <div class="character-selection">
+            <h3>Choose Your Tutor Character</h3>
+            <div class="characters">
+                <div class="character" onclick="selectCharacter('robot')">🤖 Robo</div>
+                <div class="character" onclick="selectCharacter('wizard')">🧙‍♂️ Wizard</div>
+                <div class="character" onclick="selectCharacter('alien')">👽 Alien</div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
