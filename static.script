@@ -1,0 +1,84 @@
+let selectedCharacter = '🤖';
+
+function updateApiKey() {
+    const apiKey = document.getElementById('apiKey').value;
+    fetch('/update_api_key', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ api_key: apiKey })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('API key updated successfully!');
+        } else {
+            alert('Error updating API key');
+        }
+    });
+}
+
+function sendMessage() {
+    const userInput = document.getElementById('userInput');
+    const message = userInput.value.trim();
+    
+    if (message) {
+        addMessage('user', message);
+        
+        fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.response) {
+                addMessage('tutor', data.response);
+            } else {
+                addMessage('tutor', 'Sorry, I encountered an error. Please try again.');
+            }
+        });
+        
+        userInput.value = '';
+    }
+}
+
+function addMessage(type, content) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}-message`;
+    
+    if (type === 'user') {
+        messageDiv.textContent = `You: ${content}`;
+    } else {
+        messageDiv.textContent = `${selectedCharacter} Tutor: ${content}`;
+    }
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function selectCharacter(character) {
+    switch(character) {
+        case 'robot':
+            selectedCharacter = '🤖';
+            break;
+        case 'wizard':
+            selectedCharacter = '🧙‍♂️';
+            break;
+        case 'alien':
+            selectedCharacter = '👽';
+            break;
+    }
+    alert(`Selected ${character} as your tutor!`);
+}
+
+// Add enter key support for sending messages
+document.getElementById('userInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+}); 
